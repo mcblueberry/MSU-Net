@@ -1,0 +1,50 @@
+#DATA
+data_root: dataset/acdc_2d
+classes: 4
+modality: mri
+
+
+#MODEL
+arch: shufflemoe
+init_model: '/opt/data/private/zjm/UTnetV2_new/pretrained/swin_tiny_patch4_window7_224.pth'
+
+#TRAIN
+epochs: 1000
+training_size: [224, 224]    # training crop size
+start_epoch: 0
+
+seed: 1
+k_fold: 5
+
+
+optimizer: adamw
+base_lr: 0.0001
+#base_lr: 0.0005  #new
+betas: [0.9, 0.999]
+#weight_decay: 0.05  # weight decay of SGD optimizer
+weight_decay: 0.0005  #new
+weight: [0.5, 1, 1, 1]  # weitght of each class in the loss function
+rlt: 1 # relation between CE and Dice loss
+
+scale: 0.3  # scale for data augmentation
+rotate: 180 # rotation angle for data augmentation
+translate: 0
+gaussian_noise_std: 0.02
+additive_brightness_std: 0.7
+gamma_range: [0.5, 1.6]
+
+#scale: False  # scale for data augmentation
+#rotate: False # rotation angle for data augmentation
+#translate: False
+#gaussian_noise_std: False
+#additive_brightness_std: False
+#gamma_range: False
+
+
+#VALIDATION
+ema: True
+ema_alpha: 0.99
+val_frequency: 5
+
+#INFERENCE
+sliding_window: False
